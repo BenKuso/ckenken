@@ -1,2 +1,2 @@
-# ckuokan
-A kuokan game developed in C
+# ckenken
+A KenKen game developed in C
