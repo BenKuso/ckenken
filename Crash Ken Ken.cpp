@@ -2,26 +2,26 @@
 #include <stdlib.h>
 #include <time.h>
 //Prototipos.
-void ceros(int matriz[6][6], int muestra[6][6], int usuarios[6][6], int n); //Función que llena en ceros las matrices usadas.
-void respuesta(int matriz[6][6], int n);									//Función que genera un cuadrado Latino (CL).
-void calculos(int muestra[6][6], int matriz[6][6], int n);					//Función que dado el CL asocia casillas y genera los calculos a realizar.
-void user(int muestra[6][6], int usuario[6][6], int n);						//Función que permite al usuario llenar un arreglo
+void ceros(int matriz[6][6], int muestra[6][6], int usuarios[6][6], int n); //FunciÃ³n que llena en ceros las matrices usadas.
+void respuesta(int matriz[6][6], int n);									//FunciÃ³n que genera un cuadrado Latino (CL).
+void calculos(int muestra[6][6], int matriz[6][6], int n);					//FunciÃ³n que dado el CL asocia casillas y genera los calculos a realizar.
+void user(int muestra[6][6], int usuario[6][6], int n);						//FunciÃ³n que permite al usuario llenar un arreglo
 void resultado(int matriz[6][6],int usuario[6][6], int n);
 //Bloque Principal.
 int main(){
-	int n, matriz[6][6], muestra[6][6], usuario[6][6];  //Declaración de variables requeridas.
+	int n, matriz[6][6], muestra[6][6], usuario[6][6];  //DeclaraciÃ³n de variables requeridas.
 	system("cls");
 	printf("Ingrese el orden de la matriz \n");			//Imprime mensaje que solicite el orden de la Matriz.
 	scanf("%d",&n);
 	if(n>=3 && n<=6){	 								//Lee el orden de la matriz.
-		ceros(matriz,muestra, usuario, n);				//Llama a la función ceros.
-		respuesta(matriz, n);							//Llama a la función respuesta.
-		calculos(muestra, matriz, n);					//Llama a la función calculo.
-		user(muestra, usuario, n);						//Llama a la función user.
-		resultado(matriz, usuario, n);					//Llama a la función resultado.
+		ceros(matriz,muestra, usuario, n);				//Llama a la funciÃ³n ceros.
+		respuesta(matriz, n);							//Llama a la funciÃ³n respuesta.
+		calculos(muestra, matriz, n);					//Llama a la funciÃ³n calculo.
+		user(muestra, usuario, n);						//Llama a la funciÃ³n user.
+		resultado(matriz, usuario, n);					//Llama a la funciÃ³n resultado.
 		system("pause");
 	}else{
-		printf("Este juego no está diseñado para n\243meros mayores que 6 ni menores que 2\n");  //If que controla no salirse del rango e imprima mensaje si sucede.
+		printf("Este juego no estÃ¡ diseÃ±ado para n\243meros mayores que 6 ni menores que 2\n");  //If que controla no salirse del rango e imprima mensaje si sucede.
 	}
 }
 //Implemmentaciones
@@ -37,51 +37,31 @@ void ceros(int matriz[6][6], int muestra[6][6], int usuario[6][6], int n){
 }
 						//respuesta.
 void respuesta(int matriz[6][6], int n){
-	int posible, contador=0, bandera;					//Declaración de variables requeridas.
-	srand(time(NULL));  								//Genera semilla.
-	for(int i=0; i<n; i++){								//ciclo para llenar la matriz.
+	int z, original;									//DeclaraciÃ³n de variables.
+	srand(time(NULL));									//Semilla.
+	z=1+rand()%n;										//asigna a z un numero aleatorio de 1 a n.
+	original=z;											//Guarda el nÃºmero generado.								
+	for(int i=0; i<n; i++){								//Ciclos para permutar valores.
+		z=z+i;											//Al nÃºmero generado le suma i.
 		for(int j=0; j<n; j++){							
-			do{											//ciclo que se repita en caso de encontrar el número repetido por fila o columna.
-				posible=(rand()%n)+1;					//genera un valor aleatorio y lo guarda en una variable de paso.
-				for(int k=0; k<n; k++){					//ciclo que busca el número generado en la fila.
-					if(posible==matriz[k][j]){
-						bandera=1;
-						break;
-					}else{
-						bandera=0;
-					}
-				}
-				if(bandera==0){
-					contador++;							//contador y condicional que muestran un mensaje cuando el programa crashea.
-					for(int l=0; l<n; l++){				//ciclo que busca el número generado en la columna.
-						if(posible==matriz[i][l]){
-							if(contador==1000000){
-								main();
-								break;
-							}else{
-								bandera=1;
-									break;
-							}
-							
-						}else{
-							bandera=0;
-						}
-					}
-				}	
-			}while(bandera==1);
-			matriz[i][j]=posible;						//asigna el número generado a la matriz en el lugar que le corresponde.
+			if(z>n){									//condicional que impide que el numero pase de n.
+				z=(z-n);						
+			}
+			matriz[i][j]=z;								//Asigna el nÃºmero a la posiciÃ³n correspondiente en la matriz.
+			z++;
 		}
+		z=original;
 	}
-}				
+}							
 					//calculos.
 void calculos(int muestra[6][6], int matriz[6][6], int n){
-	int calculo, operacion;								//Declaración de variables requeridas.
-	switch(n){											//Switch que asocia casillas según el orden.
+	int calculo, operacion;								//DeclaraciÃ³n de variables requeridas.
+	switch(n){											//Switch que asocia casillas segÃºn el orden.
 		case 3:								
-			operacion=rand()%4;							//genera un valor aleatorio que representan una operación aritmética.
+			operacion=rand()%4;							//genera un valor aleatorio que representan una operaciÃ³n aritmÃ©tica.
 			if(operacion==0){							//0=+ 1=- 2=* 3=/.
-				calculo=matriz[0][0]+matriz[1][0];		//Se realiza el calculo requerido contemplando evitar números negativos.
-				operacion=43;							//Se asigna el valor en ASCII para el símbolo de la operación:
+				calculo=matriz[0][0]+matriz[1][0];		//Se realiza el calculo requerido contemplando evitar nÃºmeros negativos.
+				operacion=43;							//Se asigna el valor en ASCII para el sÃ­mbolo de la operaciÃ³n:
 			}											//43=+ 45=-  42=* 47=/.
 			if(operacion==1){
 				if(matriz[0][0]>matriz[1][0]){
@@ -105,8 +85,8 @@ void calculos(int muestra[6][6], int matriz[6][6], int n){
 					operacion=47;
 				}
 			}
-			muestra[0][0]=calculo;						//de las casillas asociadas a la primera se le asigna el valor de la operación efectuada
-			muestra[1][0]=operacion;					//a la última el valor en ASCII.
+			muestra[0][0]=calculo;						//de las casillas asociadas a la primera se le asigna el valor de la operaciÃ³n efectuada
+			muestra[1][0]=operacion;					//a la Ãºltima el valor en ASCII.
 			operacion=rand()%4;
 			if(operacion==0){
 				calculo=matriz[0][1]+matriz[0][2];
@@ -1037,25 +1017,25 @@ void calculos(int muestra[6][6], int matriz[6][6], int n){
 }	
 					//Usuario.
 void user(int muestra[6][6], int usuario[6][6], int n){
-	int fil, col, valor, pregunta; 							//Declaración de variables usadas.
-	do{														//ciclo do wuile que permita repetir siempre que el usuario así lo desee.
+	int fil, col, valor, pregunta; 							//DeclaraciÃ³n de variables usadas.
+	do{														//ciclo do wuile que permita repetir siempre que el usuario asÃ­ lo desee.
 		for(int i=0; i<100; i++){ 							//clear screen.
 			printf("\n");
 		}
-		for(int i=0; i<n; i++){						//doble ciclo for que permite la impresión.
+		for(int i=0; i<n; i++){						//doble ciclo for que permite la impresiÃ³n.
 			for(int j=0; j<n; j++){
-				if(muestra[i][j]>40){				//condicional que imprime a manera de caracter los que tenían el valor ASCII.
+				if(muestra[i][j]>40){				//condicional que imprime a manera de caracter los que tenÃ­an el valor ASCII.
 					printf("[%c]",muestra[i][j]);
 					continue;
 				}
-				printf("[%d]",muestra[i][j]);		//Impresión normal.
+				printf("[%d]",muestra[i][j]);		//ImpresiÃ³n normal.
 			}
-			printf("\n");							//Salto de línea para dar formato cuadrado.
+			printf("\n");							//Salto de lÃ­nea para dar formato cuadrado.
 		}
-		for(int i=0; i<5; i++){						//Salto de línea que separa un cuadrado de otro.
+		for(int i=0; i<5; i++){						//Salto de lÃ­nea que separa un cuadrado de otro.
 			printf("\n");
 		}
-		for(int i=0; i<n; i++){						//Impresión del arreglo que contiene las respuestas del usuario.
+		for(int i=0; i<n; i++){						//ImpresiÃ³n del arreglo que contiene las respuestas del usuario.
 			for(int j=0; j<n; j++){
 				printf("[%d]",usuario[i][j]);
 			}
@@ -1065,13 +1045,13 @@ void user(int muestra[6][6], int usuario[6][6], int n){
 		scanf("%d",&fil);									//Lee la fila.
 		printf("columna de la casilla que desea llenar \n");//Muestra un mensaje pidiendo la columna de la casilla.
 		scanf("%d",&col);									//Lee la columna.
-		printf("valor con que desea llenar \n");			//Pide el valor que se pondrá en la casilla indicada.
+		printf("valor con que desea llenar \n");			//Pide el valor que se pondrÃ¡ en la casilla indicada.
 		scanf("%d",&valor);									//lee dicho valor.
 		usuario[fil][col]=valor;							//Llena el valor dado en la casilla indicada. 
 		for(int i=0; i<100; i++){					//De nuevo hace un Clear Screen.
 			printf("\n");
 		}
-		for(int i=0; i<n; i++){						//Vuelve a Imprimir los arreglos; el del usuario ya con la modificación.
+		for(int i=0; i<n; i++){						//Vuelve a Imprimir los arreglos; el del usuario ya con la modificaciÃ³n.
 			for(int j=0; j<n; j++){
 				if(muestra[i][j]>40){				
 					printf("[%c]",muestra[i][j]);
@@ -1090,29 +1070,29 @@ void user(int muestra[6][6], int usuario[6][6], int n){
 			}
 			printf("\n");
 		}
-		printf("desea llenar otra casilla? SI=1 NO=0 \n");//pregunta si desea llenar otra casilla, al resonder si, se repetirá el ciclo.
+		printf("desea llenar otra casilla? SI=1 NO=0 \n");//pregunta si desea llenar otra casilla, al resonder si, se repetirÃ¡ el ciclo.
 		scanf("%d",&pregunta);							  //recibe la respuesta
 	}while(pregunta==1);								  //Compara la respuesta dada y determina si se repite o no el ciclo.	
 }		
 					//resultado.
 void resultado(int matriz[6][6],int usuario[6][6], int n){
 	int iguales=0;										//Declara la variable tipo contador usada para determinar la victoria o derrota.
-		for(int i=0; i<n; i++){							//Doble ciclo que comparará valor por valor la matriz original y la que lleno el usuario.
+		for(int i=0; i<n; i++){							//Doble ciclo que compararÃ¡ valor por valor la matriz original y la que lleno el usuario.
 			for(int j=0; j<n; j++){
 				if(matriz[i][j]==usuario[i][j]){
-					iguales++;							//En caso de que dos valores sean iguales, se añaden al contador.
+					iguales++;							//En caso de que dos valores sean iguales, se aÃ±aden al contador.
 				}
 			}
 		}
 		if(iguales==(n*n)){								//Si el contador es igual a n^2 entonces ambas matrices son identicas, lo que significa que el usuario ha ganado.
 			system("color a");							//Cambio de color a Verde.
-			printf("¡FELICIDADES HA GANADO!\n");		//Imprime mensaje de Victoria.
+			printf("Â¡FELICIDADES HA GANADO!\n");		//Imprime mensaje de Victoria.
 		}else{											//Caso contrario el usuario ha perdido.
 			system("color c");							//cambio de color a rojo.
 			printf("FRACASO!!! lo siento, debi\242 tener algo como esto:\n"); 	//Mensaje de Derrota.
 			for(int i=0; i<n; i++){						//Doble ciclo para imprimir arreglo.
 				for(int j=0; j<n; j++){
-					printf("[%d]",matriz[i][j]);		//Se le proporciona al usuario la repuesta correcta que debió haber tenido.
+					printf("[%d]",matriz[i][j]);		//Se le proporciona al usuario la repuesta correcta que debiÃ³ haber tenido.
 				}
 				printf("\n");
 			}
